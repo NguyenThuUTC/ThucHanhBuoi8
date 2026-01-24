@@ -1,19 +1,21 @@
 package com.example.activityandnavigationex.ui.entry
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.activityandnavigationex.R
 import com.example.activityandnavigationex.databinding.FragmentLoginBinding
+import com.example.activityandnavigationex.ui.main.HomeActivity
 
 class LoginFragment : Fragment() {
 
     var binding: FragmentLoginBinding? = null
+    val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,56 +28,89 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        savedInstanceState?.let { bundle ->
+//            binding?.txtEmailError?.apply {
+//                text = bundle.getString(EMAIL_ERROR_KEY)
+//                isVisible = true
+//            }
+//        }
+
         binding?.run {
             txtLogin.setOnClickListener {
                 val email = edtEmail.text.toString().trim()//.trim() remove dau cach o dau va cuooi
                 val password = edtPassword.text.toString().trim()
+                viewModel.handleLogin(email, password)
+            }
+        }
 
-                handleLogin(email, password)
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.uiLoginState.observe(viewLifecycleOwner) { uiState ->
+            when(uiState) {
+                is ValidationResult.Valid -> {
+                    val intent = Intent(requireContext(),
+                        HomeActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                is ValidationResult.Invalid -> {
+                    val emailError = uiState.error.first
+                    val passwordError = uiState.error.second
+                    showEmailError(emailError)
+                    showPasswordError(passwordError)
+                }
             }
         }
     }
 
-    private fun handleLogin(email: String, password: String) {
+    private fun showEmailError(emailErr: ErrorUiState?) = binding?.run {
+        txtEmailError.isVisible = emailErr != null
+        when(emailErr) {
+            is ErrorUiState.EmailEmpty -> {
+                txtEmailError.text = getString(R.string.email_cannot_be_empty)
+            }
 
-        val emailError = checkEmail(email)
-        val passwordError = checkPassword(password)
-
-        if (emailError == null && passwordError == null) {
-            //valid info
-            //navigate to home
+            is ErrorUiState.WrongEmailFormat -> {
+                txtEmailError.text = getString(R.string.invalid_email_format)
+            }
+            else ->  {
+                //do nothing
+            }
         }
-
-
     }
 
-    private fun checkPassword(password: String): String? {
-        val passwordError = if (password.isEmpty()) {
-            "Password cannot be empty"
-        } else if (password.length < 8) {
-            "Password must be at least 8 chars"
-        } else null
+    private fun showPasswordError(passwordErr: ErrorUiState?) = binding?.run {
+        txtPasswordError.isVisible = passwordErr != null
+        when(passwordErr) {
+            is ErrorUiState.PasswordEmpty -> {
+                txtPasswordError.text = getString(R.string.password_cannot_be_empty)
+            }
 
-        binding?.run {
-            txtPasswordError.isVisible = passwordError != null
-            txtPasswordError.text = passwordError
+            is ErrorUiState.PasswordTooShort -> {
+                txtPasswordError.text = getString(R.string.password_must_be_at_least_8_chars)
+            }
+            else ->  {
+                //do nothing
+            }
         }
-        return passwordError
     }
 
-    private fun checkEmail(email: String): String? {
-        //check email valid?
-        val emailError = if (email.isEmpty()) {
-            "Email cannot be empty"
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            "Invalid Email Format"
-        } else null
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(EMAIL_ERROR_KEY, "${binding?.txtEmailError?.text}")
+        outState.putString(PASSWORD_ERROR_KEY, "${binding?.txtPasswordError?.text}")
+    }
 
-        binding?.run {
-            txtEmailError.isVisible = emailError != null
-            txtEmailError.text = emailError
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 
-        return emailError
+    companion object {
+        const val EMAIL_ERROR_KEY = "EMAIL_ERROR_KEY"
+        const val PASSWORD_ERROR_KEY = "PASSWORD_ERROR_KEY"
     }
 }

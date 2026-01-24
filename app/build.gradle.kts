@@ -61,6 +61,13 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.9.6")
     implementation("androidx.navigation:navigation-ui:2.9.6")
 
+    // ViewModel & LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
+    // Lifecycle-aware (DefaultLifecycleObserver, LifecycleOwner)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
