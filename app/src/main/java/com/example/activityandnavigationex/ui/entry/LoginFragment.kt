@@ -29,14 +29,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        savedInstanceState?.let { bundle ->
-//            binding?.txtEmailError?.apply {
-//                text = bundle.getString(EMAIL_ERROR_KEY)
-//                isVisible = true
-//            }
-//        }
-
         binding?.run {
+
+            //c1 handle data with savedInstanceState
+//            val emailErr = savedInstanceState?.getString(EMAIL_ERROR_KEY)
+//            val passwordErr = savedInstanceState?.getString(PASSWORD_ERROR_KEY)
+//            txtEmailError.text = emailErr
+//            txtEmailError.isVisible = emailErr != null
+
             txtLogin.setOnClickListener {
                 val email = edtEmail.text.toString().trim()//.trim() remove dau cach o dau va cuooi
                 val password = edtPassword.text.toString().trim()
