@@ -6,4 +6,6 @@
     <string name="invalid_email_format">Invalid email format</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
     <string name="password_must_be_at_least_8_chars">Password must be at least 8 chars</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>

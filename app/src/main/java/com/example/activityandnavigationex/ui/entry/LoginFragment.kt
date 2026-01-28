@@ -2,15 +2,21 @@ package com.example.activityandnavigationex.ui.entry
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.example.activityandnavigationex.R
 import com.example.activityandnavigationex.databinding.FragmentLoginBinding
 import com.example.activityandnavigationex.ui.main.HomeActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -28,7 +34,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            delay(1000)
+//            Log.d("test", "coroutine")
+//            val count = 1
+//            //other commands
+//        }
+//
+//        viewModel.viewModelScope.launch {
+//            //
+//        }
         binding?.run {
 
             //c1 handle data with savedInstanceState
@@ -38,6 +53,13 @@ class LoginFragment : Fragment() {
 //            txtEmailError.isVisible = emailErr != null
 
             txtLogin.setOnClickListener {
+
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                    Log.d("coroutine delay", "1")
+                    delay(10000)
+                    Log.d("coroutine delay", "2")
+                }
+
                 val email = edtEmail.text.toString().trim()//.trim() remove dau cach o dau va cuooi
                 val password = edtPassword.text.toString().trim()
                 viewModel.handleLogin(email, password)

@@ -4,12 +4,34 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel: ViewModel() {
 
     private var _uiLoginState =  MutableLiveData<ValidationResult>()
     val uiLoginState: LiveData<ValidationResult> = _uiLoginState
     fun handleLogin(email: String, password: String) {
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            //call api get user, run on background thread
+
+            withContext(Dispatchers.Main) {
+                //run on main thread
+            }
+            delay(30000)
+            launch {
+                //
+            }
+            //other command
+        }
+
+        job.isActive//true
+        job.isCompleted//
+        job.cancel()
+
         val emailError = checkEmail(email)
 
         val passwordError = checkPassword(password)
