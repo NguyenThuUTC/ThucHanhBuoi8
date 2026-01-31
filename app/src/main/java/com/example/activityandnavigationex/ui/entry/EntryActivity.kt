@@ -13,6 +13,7 @@ import kotlin.getValue
 
 class EntryActivity : AppCompatActivity() {
     var binding: ActivityEntryBinding? = null
+
     val viewModel: EntryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

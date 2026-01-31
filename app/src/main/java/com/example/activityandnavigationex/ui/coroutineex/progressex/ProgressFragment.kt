@@ -1,12 +1,14 @@
-package com.example.activityandnavigationex.ui.coroutineex
+package com.example.activityandnavigationex.ui.coroutineex.progressex
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.activityandnavigationex.R
 import com.example.activityandnavigationex.databinding.FragmentProgressBinding
+import com.example.activityandnavigationex.ui.coroutineex.progressex.ProgressViewmodel
 
 class ProgressFragment : Fragment() {
 
@@ -25,7 +27,7 @@ class ProgressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         progressViewmodel.progress.observe(viewLifecycleOwner) { progress ->
-            binding?.txtPercent?.text = "$progress%"
+            binding?.txtPercent?.text = getString(R.string.download_percent, progress)
             binding?.progressPercent?.progress = progress
         }
 

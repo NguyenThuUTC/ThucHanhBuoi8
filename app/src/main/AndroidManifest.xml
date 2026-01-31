@@ -12,16 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivityAndNavigationEx">
         <activity
-            android:name=".ui.main.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.entry.EntryActivity"
-            android:exported="true">
+            android:name=".ui.coroutineex.CoroutineExActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.main.HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.entry.EntryActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

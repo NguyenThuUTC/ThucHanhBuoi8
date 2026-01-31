@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coroutine_ex_nav"
+    app:startDestination="@id/coroutineMenuFragment">
+
+    <fragment
+        android:id="@+id/coroutineMenuFragment"
+        android:name="com.example.activityandnavigationex.ui.coroutineex.CoroutineMenuFragment"
+        android:label="fragment_coroutine_menu"
+        tools:layout="@layout/fragment_coroutine_menu" />
+
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.example.activityandnavigationex.ui.coroutineex.timerex.TimerFragment"
+        android:label="TimerFragment" />
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.example.activityandnavigationex.ui.coroutineex.progressex.ProgressFragment"
+        android:label="fragment_progress"
+        tools:layout="@layout/fragment_progress" />
+
+</navigation>
