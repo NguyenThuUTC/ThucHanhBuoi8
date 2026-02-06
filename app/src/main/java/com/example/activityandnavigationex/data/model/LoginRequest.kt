@@ -1,4 +1,3 @@
 package com.example.activityandnavigationex.data.model
 
-class LoginRequest {
-}
+data class LoginRequest (val username: String, val password: String)

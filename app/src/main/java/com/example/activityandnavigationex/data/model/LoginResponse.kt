@@ -1,4 +1,7 @@
 package com.example.activityandnavigationex.data.model
 
-class LoginResponse {
-}
+data class LoginResponse(
+    val token: String? = null,
+    val userId: String? = null,
+    val message: String? = null
+)

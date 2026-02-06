@@ -27,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:text="android@gmail.com"
             android:hint="Enter your email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtPassword"
             android:layout_width="0dp"
+            android:text="android@1234"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:hint="Enter your password"

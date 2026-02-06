@@ -12,4 +12,5 @@
     <string name="download_percent">%1$02d%%</string>
     <string name="progress_ex">Bài 1: Progress</string>
     <string name="timer_ex">Bài 2: Timer</string>
+    <string name="wrong_email_password">Wrong email or password</string>
 </resources>

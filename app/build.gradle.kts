@@ -58,18 +58,21 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     //navigation component
-    implementation("androidx.navigation:navigation-fragment:2.9.6")
-    implementation("androidx.navigation:navigation-ui:2.9.6")
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.navigation.ui)
 
     // ViewModel & LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
     // Lifecycle-aware (DefaultLifecycleObserver, LifecycleOwner)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
 
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")//alt+enter
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 
     testImplementation(libs.junit)

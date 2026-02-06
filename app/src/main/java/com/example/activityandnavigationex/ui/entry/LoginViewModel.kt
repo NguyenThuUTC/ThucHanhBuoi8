@@ -1,10 +1,13 @@
 package com.example.activityandnavigationex.ui.entry
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.activityandnavigationex.data.model.LoginRequest
+import com.example.activityandnavigationex.data.remote.ServiceProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,37 +15,54 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel: ViewModel() {
 
+    val service = ServiceProvider.api
     private var _uiLoginState =  MutableLiveData<ValidationResult>()
     val uiLoginState: LiveData<ValidationResult> = _uiLoginState
     fun handleLogin(email: String, password: String) {
-        val job = viewModelScope.launch(Dispatchers.IO) {
-            //call api get user, run on background thread
-
-            withContext(Dispatchers.Main) {
-                //run on main thread
-            }
-            delay(30000)
-            launch {
-                //
-            }
-            //other command
-        }
-
-        job.isActive//true
-        job.isCompleted//
-        job.cancel()
 
         val emailError = checkEmail(email)
 
         val passwordError = checkPassword(password)
         val isValid = emailError == null && passwordError == null
 
-        _uiLoginState.value = if (isValid) {
-            ValidationResult.Valid
+        if (isValid) {
+            //call api
+            callLoginApi(email = email, password)
+
+            ////
         } else {
-            ValidationResult.Invalid(error = Pair(emailError, passwordError))
+            _uiLoginState.value =
+                ValidationResult.Invalid(error = Pair(emailError, passwordError))
+        }
+
+    }
+
+    private fun callLoginApi(email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val loginResult = service.login(LoginRequest(username = email, password = password))
+                Log.d("LoginViewModel", "Login result: ${loginResult.userId}, ${loginResult.token}")
+
+                if (loginResult.userId != null) {
+                    //login success
+                    _uiLoginState.postValue(ValidationResult.Valid)
+                } else {
+                    _uiLoginState.postValue(
+                        ValidationResult.Invalid(
+                            error = Pair(
+                                ErrorUiState.WrongEmailOrPassword,
+                                null
+                            )
+                        )
+                    )
+                    //login fail
+                }
+            } catch (e: Exception) {
+                Log.e("LoginViewModel", e.message ?: "Exception")
+            }
         }
     }
+
     private fun checkPassword(password: String): ErrorUiState? {
         return if (password.isEmpty()) {
             ErrorUiState.PasswordEmpty
@@ -76,5 +96,7 @@ sealed class ErrorUiState {
     object EmailEmpty: ErrorUiState()
     object PasswordEmpty: ErrorUiState()
     object WrongEmailFormat: ErrorUiState()
+
+    object WrongEmailOrPassword: ErrorUiState()
     object PasswordTooShort: ErrorUiState()
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,32 +35,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            delay(1000)
-//            Log.d("test", "coroutine")
-//            val count = 1
-//            //other commands
-//        }
-//
-//        viewModel.viewModelScope.launch {
-//            //
-//        }
         binding?.run {
-
-            //c1 handle data with savedInstanceState
-//            val emailErr = savedInstanceState?.getString(EMAIL_ERROR_KEY)
-//            val passwordErr = savedInstanceState?.getString(PASSWORD_ERROR_KEY)
-//            txtEmailError.text = emailErr
-//            txtEmailError.isVisible = emailErr != null
-
             txtLogin.setOnClickListener {
-
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                    Log.d("coroutine delay", "1")
-                    delay(10000)
-                    Log.d("coroutine delay", "2")
-                }
-
                 val email = edtEmail.text.toString().trim()//.trim() remove dau cach o dau va cuooi
                 val password = edtPassword.text.toString().trim()
                 viewModel.handleLogin(email, password)
@@ -98,6 +75,15 @@ class LoginFragment : Fragment() {
             is ErrorUiState.WrongEmailFormat -> {
                 txtEmailError.text = getString(R.string.invalid_email_format)
             }
+
+            is ErrorUiState.WrongEmailOrPassword -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.wrong_email_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             else ->  {
                 //do nothing
             }
