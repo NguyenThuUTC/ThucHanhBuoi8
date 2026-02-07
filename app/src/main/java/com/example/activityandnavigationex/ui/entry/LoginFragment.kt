@@ -52,6 +52,8 @@ class LoginFragment : Fragment() {
                 is ValidationResult.Valid -> {
                     val intent = Intent(requireContext(),
                         HomeActivity::class.java)
+                    val userId = uiState.userId
+                    intent.putExtra("userId", userId)
                     startActivity(intent)
                     requireActivity().finish()
                 }

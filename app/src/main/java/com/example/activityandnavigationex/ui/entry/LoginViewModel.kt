@@ -9,9 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.activityandnavigationex.data.model.LoginRequest
 import com.example.activityandnavigationex.data.remote.ServiceProvider
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginViewModel: ViewModel() {
 
@@ -45,7 +43,7 @@ class LoginViewModel: ViewModel() {
 
                 if (loginResult.userId != null) {
                     //login success
-                    _uiLoginState.postValue(ValidationResult.Valid)
+                    _uiLoginState.postValue(ValidationResult.Valid(loginResult.userId))
                 } else {
                     _uiLoginState.postValue(
                         ValidationResult.Invalid(
@@ -58,7 +56,14 @@ class LoginViewModel: ViewModel() {
                     //login fail
                 }
             } catch (e: Exception) {
-                Log.e("LoginViewModel", e.message ?: "Exception")
+                _uiLoginState.postValue(
+                    ValidationResult.Invalid(
+                        error = Pair(
+                            ErrorUiState.WrongEmailOrPassword,
+                            null
+                        )
+                    )
+                )
             }
         }
     }
@@ -88,7 +93,7 @@ data class LoginUiState(
 )
 
 sealed class ValidationResult {
-    object Valid: ValidationResult()
+    data class Valid(val userId: String): ValidationResult()
     data class Invalid(val error: Pair<ErrorUiState?, ErrorUiState?>): ValidationResult()
 }
 

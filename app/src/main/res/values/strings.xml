@@ -13,4 +13,8 @@
     <string name="progress_ex">Bài 1: Progress</string>
     <string name="timer_ex">Bài 2: Timer</string>
     <string name="wrong_email_password">Wrong email or password</string>
+    <string name="home">Home</string>
+    <string name="library">Library</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
 </resources>

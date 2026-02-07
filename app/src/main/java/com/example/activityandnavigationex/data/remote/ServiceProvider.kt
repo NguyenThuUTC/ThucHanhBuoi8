@@ -16,6 +16,7 @@ object ServiceProvider {
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .addInterceptor(logging)
+        .addInterceptor(AuthInterceptor())
         .build()
 
 
